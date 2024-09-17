@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee-Page</title>
+    <!-- Css -->
+    <link rel="stylesheet" href="assets/css/fetch.css">
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+
+</head>
+
+<body>
+    <!-- for responsive -->
+    <nav class="navbar navbar-dark bg-dark d-md-none justify-content-end">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
+            aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+    <div class="collapse d-md-none " id="navbarToggleExternalContent">
+        <nav class="bg-dark p-4">
+            <ul class="nav flex-row ">
+                <li class="nav-item">
+                    <a class="nav-link active text-white" href="#">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#" id="sortAsc">Ascending</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#" id="sortDesc">Descending</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <!-- ///////////////////////////////// -->
+
+
+   
+
+    <div class="container-fluid">
+        <div class="row" style="margin-left: 38px;">
+            <nav class="col-md-3 col-lg-2 text-md-center d-none d-md-block bg-dark sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item font-size-lg-2">
+                            <a class="nav-link active text-white" href="#"> <span> <i
+                                        class="fa-regular fa-bookmark  pe-3 "></i></span>Dashboard</a>
+                        </li>
+                        <hr class="text-white">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#" id="sortAsc1"><span><i
+                                        class="fa-solid fa-sort-up p-3 text-white"></i></span> Ascending</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#" id="sortDesc1"> <span> <i
+                                        class="fa-solid fa-sort-down p-3"></i></span>Descending</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#" id="settings"><span> <i class="fas fa-cog p-3"></i>
+                                </span>Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#" id="profile"> <span><i
+                                        class="fa-regular fa-user p-3"></i></span> Profile</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <main role="main" class="col-md-9 col-lg-10 px-4 main-container">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Employees</h1>
+                </div>
+                <div class="search-bar mb-3">
+                    <input type="text" class="form-control" id="searchInput"
+                        placeholder="Search employee details here...">
+                </div>
+                <div class="row " id="employeeContainer">
+                    <!-- Employee Cards will go here -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const employeeContainer = document.getElementById('employeeContainer');
+            const searchInput = document.getElementById('searchInput');
+            const sortAsc = document.getElementById('sortAsc');
+            const sortDesc = document.getElementById('sortDesc');
+            const sortAsc1 = document.getElementById('sortAsc1');
+            const sortDesc1 = document.getElementById('sortDesc1');
+            let employees = [];
+
+            // Fetch employee data
+            fetch('https://jsonplaceholder.typicode.com/users')
+                .then(response => response.json())
+                .then(data => {
+                    employees = data;
+                    displayEmployees(employees); // Display initial data
+                });
+
+            // Display employees
+            function displayEmployees(employeeData) {
+                employeeContainer.innerHTML = '';
+                employeeData.forEach(employee => {
+                    const employeeCard = document.createElement('div');
+                    employeeCard.className = 'col-md--6 col-lg-4 mb-4 col-sm-6';
+                    employeeCard.innerHTML = `
+                    <div class="card text-center col-12 mx-sm-auto align-sm-center mx-xs-left">
+                    <div class="card-body p-sm-0 p-md-1 p-lg-2 ">
+                        <h5>${employee.name}</h5>
+                        <p>Username: ${employee.username}</p>
+                        <p>Email: ${employee.email}</p>
+                        <p>Phone: ${employee.phone}</p>
+               
+                        <span class="badge bg-dark  text-white">${employee.company.name}</span>
+                        <span class="badge bg-secondary text-white ">${employee.website}</span>
+                        </div>
+                       </div>                         
+                    `;
+                    employeeContainer.appendChild(employeeCard);
+                });
+            }
+
+            // Sort and display employees
+            sortAsc.addEventListener('click', () => {
+                const sortedEmployees = [...employees].sort((a, b) => a.name.localeCompare(b.name))
+                displayEmployees(sortedEmployees);
+                console.log("ascending");
+            });
+            sortDesc.addEventListener('click', () => {
+                const sortedEmployees = [...employees].sort((a, b) => b.name.localeCompare(a.name))
+                displayEmployees(sortedEmployees);
+                console.log("descending");
+            });
+            sortAsc1.addEventListener('click', () => {
+                const sortedEmployees = [...employees].sort((a, b) => a.name.localeCompare(b.name))
+                displayEmployees(sortedEmployees);
+                console.log("ascending");
+            });
+            sortDesc1.addEventListener('click', () => {
+                const sortedEmployees = [...employees].sort((a, b) => b.name.localeCompare(a.name))
+                displayEmployees(sortedEmployees);
+                console.log("descending");
+            });
+
+            // Filter employees based on search input
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase();
+                const filteredEmployees = employees.filter(employee =>
+                    employee.name.toLowerCase().includes(query) ||
+                    employee.username.toLowerCase().includes(query) ||
+                    employee.email.toLowerCase().includes(query) ||
+                    employee.phone.toLowerCase().includes(query)
+                );
+                displayEmployees(filteredEmployees);
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>

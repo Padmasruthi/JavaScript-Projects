@@ -1,0 +1,19 @@
+body {
+    background-color: green !important;
+}
+
+.container {
+    background-color: rgba(0, 0, 0, .5);
+    width: 475px !important;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 130px;
+}
+
+/* media query 767px */
+@media(max-width:767px){
+    .container{
+        width: 250px !important;
+
+    }
+}

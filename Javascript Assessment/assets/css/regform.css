@@ -1,0 +1,29 @@
+body {
+    background-color: rgb(84, 191, 234) !important;
+}
+
+.container {
+ 
+    background-color: rgba(0, 0, 0, .5);
+    width: 475px !important;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.form-label {
+    font-size: 22px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+
+}
+
+
+
+
+/* media query 767px */
+@media(max-width:767px){
+    .container{
+        width: 250px !important;
+
+    }
+}
