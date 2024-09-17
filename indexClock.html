@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        .Clock {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            color: lime;
+            font-size: 60px;
+            letter-spacing: 7px;
+            border: 3px solid lime;
+            padding: 10px;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="DigitalClock" class="Clock"></div>
+    <h1>DigitalClock</h1>
+
+
+    <script>
+
+        function showTime() {
+            var date = new Date();
+            var h = date.getHours();
+            var m = date.getMinutes();
+            var s = date.getSeconds();
+            var session = "A.M.";
+
+            if (h == 0) {
+                h = 12;  //12 hour format
+            }
+
+            if (h > 12) {
+                h = h - 12 //12 hour format
+                session = "P.M."
+            }
+
+            //  want hrs, mins, secs will be in double digit format.
+            // if (h < 10) {
+            //     h = "0" + h
+            // }
+            // if (m < 10) {
+            //     m = "0" + m
+            // }
+            // if (s < 10) {
+            //     s = "0" + s
+            // }  
+            // instead of this, we write like this.
+
+            h = (h < 10) ? "0" + h : h;
+            m = (m < 10) ? "0" + m : m;
+            s = (s < 10) ? "0" + s : s;
+
+
+            document.getElementById('DigitalClock').innerHTML = h + ":" + m + ":" + s + " " + session;
+
+            setTimeout(showTime, 1000)
+        }
+
+        showTime()
+    </script>
+</body>
+
+</html>
